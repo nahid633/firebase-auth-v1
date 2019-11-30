@@ -17,5 +17,20 @@ export const navigation = [
         path: '/display-data'
       }
     ]
+  },
+  {
+    text: 'users',
+    icon: 'group',
+    path: '/users'
+  },
+  {
+    text: 'catalog',
+    icon: 'bulletlist',
+    path: '/catalog'
+  },
+  {
+    text: 'shops',
+    icon: 'showpanel',
+    path: '/shops'
   }
 ];

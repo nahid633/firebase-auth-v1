@@ -12,13 +12,22 @@ import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import { RolesComponent } from './pages/roles/roles.component';
 import {RoleService} from './shared/services/role.service';
-import {DxButtonModule, DxDataGridModule, DxSelectBoxModule} from 'devextreme-angular';
+import {DxButtonModule, DxDataGridModule, DxSelectBoxModule, DxTagBoxModule} from 'devextreme-angular';
 import {HttpClientModule} from '@angular/common/http';
+import { ShopsComponent } from './pages/shops/shops.component';
+import { UsersComponent } from './pages/users/users.component';
+import { CatalogComponent } from './pages/catalog/catalog.component';
+import {PermissionService} from './shared/services/permission.service';
+import {AuthGuardService} from './shared/guards/auth.guard';
+import {PermissionGuard} from './shared/guards/permission.guard';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RolesComponent
+    RolesComponent,
+    ShopsComponent,
+    UsersComponent,
+    CatalogComponent
   ],
   imports: [
     BrowserModule,
@@ -35,8 +44,9 @@ import {HttpClientModule} from '@angular/common/http';
     DxDataGridModule,
     DxSelectBoxModule,
     DxButtonModule,
+    DxTagBoxModule
   ],
-  providers: [AuthService, ScreenService, AppInfoService, RoleService],
+  providers: [AuthService, ScreenService, AppInfoService, RoleService, PermissionService, PermissionGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

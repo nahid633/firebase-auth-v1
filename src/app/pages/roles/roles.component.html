@@ -1,1 +1,49 @@
-roles-working
+<!--<dxo-load-panel *ngIf="!dataSource"></dxo-load-panel>-->
+<dx-data-grid
+  *ngIf="dataSource"
+  id="grid"
+  [dataSource]="dataSource"
+  [repaintChangesOnly]="true"
+  [showBorders]="true"
+  (onRowInserted)="onInsert($event)"
+  (onRowRemoved)="onRemove($event)"
+  (onRowUpdated)="onUpdate($event)"
+>
+  <dxo-load-panel
+    [enabled]="true">
+  </dxo-load-panel>
+  <dxo-scrolling mode="virtual"></dxo-scrolling>
+  <dxo-editing
+    mode="cell"
+    [refreshMode]="refreshMode"
+    [allowAdding]="true"
+    [allowUpdating]="true"
+    [allowDeleting]="true">
+  </dxo-editing>
+  <dxi-column dataField="name"></dxi-column>
+  <dxi-column dataField="description"></dxi-column>
+  <dxi-column
+    dataField='priviliages'
+    caption="Permissions"
+    [width]="200"
+    [allowSorting]="false"
+    editCellTemplate="tagBoxEditor">
+    <dxo-lookup
+      [dataSource]="dataSource.priviliages">
+    </dxo-lookup>
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+  </dxi-column>
+  <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
+    <dx-tag-box
+      [dataSource]="permissions"
+      [value]="cellInfo.value"
+      [showSelectionControls]="true"
+      [maxDisplayedTags]="3"
+      [showMultiTagOnly]="false"
+      applyValueMode="useButtons"
+      [searchEnabled]="true"
+      (onValueChanged)="cellInfo.setValue($event.value)"
+      (onSelectionChanged)="cellInfo.component.updateDimensions()">
+    </dx-tag-box>
+  </div>
+</dx-data-grid>
