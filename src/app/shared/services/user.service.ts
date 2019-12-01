@@ -5,48 +5,38 @@ import {Observable, of} from 'rxjs';
 import notify from 'devextreme/ui/notify';
 
 @Injectable()
-export class RoleService {
+export class UserService {
 
   constructor(private firestore: AngularFirestore) {
 
   }
-  createRole(data) {
+  createUser(data) {
     return new Promise<any>((resolve, reject) => {
       this.firestore
-        .collection('roles-new')
-        .doc(data.id)
-        .set(data)
+        .collection('users')
+        .add(data)
         .then(() => notify('Added', 'success', 500)
     , err => notify(err, 'error', 500));
     });
   }
-
-  getRoles(): Observable<any> {
-    return this.firestore.collection('/roles-new').snapshotChanges().pipe(map(roles =>
-      roles.map(r => {
+  getUsers(): Observable<any> {
+    return this.firestore.collection('/users').snapshotChanges().pipe(map(users =>
+      users.map(r => {
         const data = r.payload.doc.data();
         const id = r.payload.doc.id;
         return {id, ...data};
       })
     ));
   }
-
-  getRolePermission(id, permission) {
-    return this.firestore.collection('/roles-new').doc(id).ref.get().then(data => {
-      const role = data.data();
-      return role.priviliages.findIndex((p) => p === permission) !== -1;
-    });
-  }
-  updateRole(data) {
+  updateUser(data) {
     return this.firestore
-      .collection('roles-new')
+      .collection('users')
       .doc(data.id)
       .set(data, { merge: true }).then(() => notify('updated', 'success', 500)).catch(e => notify(e, 'error', 500));
   }
-
-  deleteRole(data) {
+  deleteUser(data) {
     return this.firestore
-      .collection('roles-new')
+      .collection('users')
       .doc(data)
       .delete().then(() => notify('Removed', 'success', 500)).catch(e => notify(e, 'error', 500));
 

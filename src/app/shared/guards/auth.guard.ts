@@ -9,7 +9,6 @@ export class AuthGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const isLoggedIn = this.authService.isLoggedIn;
     const isLoginForm = route.routeConfig.path === 'login-form';
-
     if (isLoggedIn && isLoginForm) {
       this.router.navigate(['/']);
       return false;

@@ -24,6 +24,11 @@ export const navigation = [
     path: '/users'
   },
   {
+    text: 'roles',
+    icon: 'edit',
+    path: '/roles'
+  },
+  {
     text: 'catalog',
     icon: 'bulletlist',
     path: '/catalog'

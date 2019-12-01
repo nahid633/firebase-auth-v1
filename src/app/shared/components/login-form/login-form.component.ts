@@ -24,12 +24,14 @@ export class LoginFormComponent {
     if (!args.validationGroup.validate().isValid) {
       return;
     }
-
-    // this.authService.emailSignUp(this.login, this.password);
     this.authService.emailLogin(this.login, this.password);
-//    this.authService.logIn(this.login, this.password);
-
     args.validationGroup.reset();
+  }
+  onSingUp(args) {
+    if (!args.validationGroup.validate().isValid) {
+      return;
+    }
+    this.authService.emailSignUp(this.login, this.password);
   }
 }
 @NgModule({

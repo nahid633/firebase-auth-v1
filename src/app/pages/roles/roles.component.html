@@ -16,9 +16,9 @@
   <dxo-editing
     mode="cell"
     [refreshMode]="refreshMode"
-    [allowAdding]="true"
-    [allowUpdating]="true"
-    [allowDeleting]="true">
+    [allowAdding]="hasPermission"
+    [allowUpdating]="hasPermission"
+    [allowDeleting]="hasPermission">
   </dxo-editing>
   <dxi-column dataField="name"></dxi-column>
   <dxi-column dataField="description"></dxi-column>

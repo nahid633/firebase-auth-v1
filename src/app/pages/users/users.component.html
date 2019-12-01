@@ -1,1 +1,29 @@
-<p>users works!</p>
+<dx-data-grid
+  *ngIf="dataSource"
+  id="grid"
+  [dataSource]="dataSource"
+  [repaintChangesOnly]="true"
+  [showBorders]="true"
+  (onRowRemoved)="onRemove($event)"
+  (onRowUpdated)="onUpdate($event)"
+>
+  <dxo-load-panel
+    [enabled]="true">
+  </dxo-load-panel>
+  <dxo-scrolling mode="virtual"></dxo-scrolling>
+  <dxo-editing
+    mode="cell"
+    [refreshMode]="refreshMode"
+    [allowUpdating]="hasPermission"
+    [allowDeleting]="hasPermission">
+  </dxo-editing>
+  <dxi-column dataField="email"></dxi-column>
+  <dxi-column
+    dataField='role'
+    caption="Role">
+    <dxo-lookup
+      [dataSource]="roleDataSource">
+    </dxo-lookup>
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+  </dxi-column>
+</dx-data-grid>

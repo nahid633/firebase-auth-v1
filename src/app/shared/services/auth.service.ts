@@ -10,32 +10,37 @@ import notify from 'devextreme/ui/notify';
 
 @Injectable()
 export class AuthService {
-  loggedIn = true;
+  loggedIn = false;
 
-  user: Observable<User>;
+  user: User;
 
   constructor(private afAuth: AngularFireAuth,
               private router: Router,
               private afs: AngularFirestore) {
-    this.user = this.afAuth.authState.pipe(
-      switchMap(user => {
-        if (user) {
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
-        } else {
-          return of(null);
-        }
-      })
-    );
+    // this.afAuth.authState.pipe(
+    //   switchMap(user => {
+    //     if (user) {
+    //       this.loggedIn = true;
+    //       this.afs.doc<User>(`users/${user.uid}`).valueChanges().subscribe(res=>{
+    //         console.log(res);
+    //         this.user = res;
+    //       });
+    //     } else {
+    //       this.loggedIn = false;
+    //       return of(null);
+    //     }
+    //   })
+    // );
 
   }
 
 
-  private updateUserData(user, isNew) {
+  private updateUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const data: User = {
       uid: user.uid,
       email: user.email,
-      role: isNew ? 'salesman' : user.role
+      role: 'salesman'
     };
     return userRef.set(data, {merge: true});
   }
@@ -55,12 +60,20 @@ export class AuthService {
     return this.user || null;
   }
 
+  gettingUserChange(user) {
+          this.afs.doc<User>(`users/${user.uid}`).valueChanges().subscribe(res => {
+            this.loggedIn = true;
+            this.user = res;
+            this.router.navigate(['/']);
+          });
+  }
+
   emailSignUp(email: string, password: string) {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        this.updateUserData(result.user, true);
-        this.loggedIn = true;
-        this.router.navigate(['/']);
+        this.updateUserData(result.user);
+        this.gettingUserChange(result.user);
+        notify('SingedUp', 'success', 500);
       })
       .catch(error => notify(error, 'error', 500));
   }
@@ -68,9 +81,8 @@ export class AuthService {
   emailLogin(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((result) => {
-        this.updateUserData(result.user, false);
-        this.loggedIn = true;
-        this.router.navigate(['/']);
+        this.gettingUserChange(result.user);
+        notify('Logged in', 'success', 500);
       }).catch((error) => {
         notify(error, 'error', 500);
       });

@@ -1,6 +1,6 @@
 import { Output, Injectable, EventEmitter } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Observable, of} from 'rxjs';
+import {from, Observable, of} from 'rxjs';
 import {permissions} from '../../app-permissions';
 import {User} from '../entities/user';
 import {AuthService} from './auth.service';
@@ -13,13 +13,8 @@ export class PermissionService {
   }
 
   checkPermission(permission: string): Observable<boolean> {
-    this.authService.userExists.subscribe(user => {
-      if (!user) {
-        return of(false);
-      }
-      return this.roleService.getRolePermission(user.role, permission);
-    });
-    return of(false);
+    const user = this.authService.userExists;
+    return from(this.roleService.getRolePermission(user.role, permission));
   }
 
   getPermissions(): Observable<string[]> {

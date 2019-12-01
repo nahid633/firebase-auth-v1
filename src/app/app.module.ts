@@ -20,6 +20,7 @@ import { CatalogComponent } from './pages/catalog/catalog.component';
 import {PermissionService} from './shared/services/permission.service';
 import {AuthGuardService} from './shared/guards/auth.guard';
 import {PermissionGuard} from './shared/guards/permission.guard';
+import {UserService} from './shared/services/user.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,14 @@ import {PermissionGuard} from './shared/guards/permission.guard';
     DxButtonModule,
     DxTagBoxModule
   ],
-  providers: [AuthService, ScreenService, AppInfoService, RoleService, PermissionService, PermissionGuard],
+  providers: [
+    AuthService,
+    ScreenService,
+    AppInfoService,
+    RoleService,
+    PermissionService,
+    PermissionGuard,
+    UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

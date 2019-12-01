@@ -23,10 +23,10 @@
     <div class="dx-field">
         <dx-button type="default" text="Login" (onClick)="onLoginClick($event)" width="100%"></dx-button>
     </div>
+<!--    <div class="dx-field">-->
+<!--        <a routerLink="/recovery">Forgot password ?</a>-->
+<!--    </div>-->
     <div class="dx-field">
-        <a routerLink="/recovery">Forgot password ?</a>
-    </div>
-    <div class="dx-field">
-        <dx-button type="normal" text="Create an account" width="100%"></dx-button>
+        <dx-button type="normal" (onClick)="onSingUp($event)" text="Create an account" width="100%"></dx-button>
     </div>
 </dx-validation-group>
